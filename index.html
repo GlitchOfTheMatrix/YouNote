@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouNote</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <span class="logo-orange">You</span
+          ><span class="logo-blue">Note</span>
+        </div>
+        <div class="profile-icon"></div>
+      </header>
+      <main>
+        <div class="input-section">
+          <input
+            type="text"
+            placeholder="Paste YouTube Link"
+            id="youtube-link"
+          />
+          <button id="generate-btn">Generate</button>
+        </div>
+        <div class="content-section">
+          <div class="assistant-card">
+            <div class="assistant-avatar"></div>
+            <div class="assistant-content">
+              <div class="assistant-title">Hi! I'm your AI assistant ✨</div>
+              <div class="assistant-desc">
+                Ask me anything from the video below!
+              </div>
+              <ul class="assistant-questions">
+                <li>&gt; What's a Fourier series?</li>
+                <li>&gt; Solve ∫x² sin(x) dx</li>
+              </ul>
+            </div>
+          </div>
+          <div class="notes-card">
+            <div class="notes-title">Your Notes</div>
+            <div class="notes-content" id="notes-content">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
+              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+              erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
+              tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate
+              velit esse molestie consequat. Duis autem
+            </div>
+            <div class="notes-actions">
+              <button id="copy-btn">Copy</button>
+              <button id="export-btn" class="export">Export</button>
+              <button id="clear-btn">Clear</button>
+            </div>
+          </div>
+        </div>
+        <div class="ask-section">
+          <input
+            type="text"
+            placeholder="Ask your own question..."
+            id="ask-input"
+          />
+          <button id="ask-btn">Ask</button>
+        </div>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
