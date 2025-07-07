@@ -46,18 +46,38 @@ generateBtn.addEventListener("click", () => {
   const url = document.getElementById("youtube-link").value.trim();
   if (!url) return alert("Please paste a YouTube link");
 
-  fetch("https://younote-wfcg.onrender.com", {
+  // fetch("https://younote-wfcg.onrender.com", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({ url }),
+  // })
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     if (data.error) return alert(data.error);
+  //     notesContent.textContent = data.notes.join("\n\n");
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //     alert("Network or server error");
+  //   });
+  fetch("https://younote-backend.onrender.com/api/transcript", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ url }),
   })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.error) return alert(data.error);
-      notesContent.textContent = data.notes.join("\n\n");
+    .then(async (res) => {
+      const text = await res.text(); // even if it's not JSON
+      try {
+        const json = JSON.parse(text);
+        if (json.error) alert(json.error);
+        else notesContent.textContent = json.notes.join("\n\n");
+      } catch (err) {
+        console.error("❌ Failed to parse JSON. Got:", text);
+        alert("Something went wrong. Server may be down.");
+      }
     })
     .catch((err) => {
-      console.error(err);
-      alert("Network or server error");
+      console.error("❌ Network error:", err);
+      alert("Network error: Could not reach backend");
     });
 });
