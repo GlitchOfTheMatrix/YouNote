@@ -46,7 +46,7 @@ generateBtn.addEventListener("click", () => {
   const url = document.getElementById("youtube-link").value.trim();
   if (!url) return alert("Please paste a YouTube link");
 
-  fetch("http://localhost:5000/api/transcript", {
+  fetch("https://younote-wfcg.onrender.com", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ url }),
