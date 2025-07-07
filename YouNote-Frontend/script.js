@@ -60,7 +60,7 @@ generateBtn.addEventListener("click", () => {
   //     console.error(err);
   //     alert("Network or server error");
   //   });
-  fetch("https://younote.onrender.com/api/transcript", {
+  fetch("https://younote-wfcg.onrender.com/api/transcript", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ url }),
