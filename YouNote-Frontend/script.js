@@ -38,7 +38,26 @@ askBtn.addEventListener("click", () => {
   }
 });
 
+// generateBtn.addEventListener("click", () => {
+//   // Placeholder: In a real app, this would fetch notes from the YouTube link
+//   alert("Generate notes from YouTube link (not implemented)");
+// });
 generateBtn.addEventListener("click", () => {
-  // Placeholder: In a real app, this would fetch notes from the YouTube link
-  alert("Generate notes from YouTube link (not implemented)");
+  const url = document.getElementById("youtube-link").value.trim();
+  if (!url) return alert("Please paste a YouTube link");
+
+  fetch("http://localhost:5000/api/transcript", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) return alert(data.error);
+      notesContent.textContent = data.notes.join("\n\n");
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Network or server error");
+    });
 });
