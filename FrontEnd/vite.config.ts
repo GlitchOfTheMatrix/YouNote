@@ -4,6 +4,8 @@ import { nitro } from "nitro/vite";
 import viteReact from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 
+const isVercel = process.env.VERCEL === "1";
+
 export default defineConfig({
   server: {
     port: Number(process.env.PORT) || 3000,
@@ -12,7 +14,7 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     tanstackStart(),
-    nitro(),
+    ...(isVercel ? [nitro()] : []),
     viteReact(),
   ],
 });
