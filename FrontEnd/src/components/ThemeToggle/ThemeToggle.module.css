@@ -1,0 +1,44 @@
+/* ThemeToggle.module.css
+   Sun and moon are both always in the DOM; the [data-theme] attribute on
+   <html> decides which one shows. Defaults to "light" look (sun visible)
+   so a server-rendered page without the attribute yet still looks right. */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+.toggle:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.toggle:active {
+  transform: scale(0.94);
+}
+
+.sun,
+.moon {
+  grid-area: 1 / 1;
+}
+
+.toggle {
+  display: inline-grid;
+}
+
+/* Light mode (default / no attribute yet): show sun, hide moon. */
+.moon { display: none; }
+.sun { display: block; }
+
+/* Dark mode: show moon, hide sun. */
+:global([data-theme="dark"]) .sun { display: none; }
+:global([data-theme="dark"]) .moon { display: block; }

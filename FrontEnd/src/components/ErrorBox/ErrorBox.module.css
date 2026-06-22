@@ -1,0 +1,18 @@
+/* ErrorBox.module.css — soft error card */
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+}
+
+.message {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+}

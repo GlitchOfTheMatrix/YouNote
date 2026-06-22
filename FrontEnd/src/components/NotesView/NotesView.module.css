@@ -1,0 +1,115 @@
+/* NotesView.module.css */
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.h1, .h2, .h3, .h4 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+.h1 { font-size: 26px; margin-top: 0; }
+.h2 { font-size: 20px; padding-top: 6px; border-top: 1px solid var(--border); margin-top: 14px; padding-top: 18px; }
+.h3 { font-size: 17px; }
+.h4 { font-size: 15px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+.paragraph {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.ul, .ol {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.ul { list-style: none; padding-left: 4px; }
+.ul li {
+  position: relative;
+  padding-left: 20px;
+}
+.ul li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.ol { list-style: decimal; padding-left: 22px; }
+.ol li::marker { color: var(--accent); font-weight: 600; }
+
+.inlineCode {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Code block wrapper — positions the copy button over the top-right corner */
+.codeWrapper {
+  position: relative;
+}
+
+.codeWrapper:hover .copyButton {
+  opacity: 1;
+}
+
+.copyButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #c8c8cc;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.copyButton:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.pre {
+  background: #16161a;
+  color: #e7e7ea;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  overflow-x: auto;
+  box-shadow: var(--shadow-xs);
+}
+
+:global([data-theme="dark"]) .pre {
+  background: #0c0c0d;
+  border: 1px solid var(--border);
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre;
+}

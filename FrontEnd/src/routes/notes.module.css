@@ -1,0 +1,169 @@
+/* notes.module.css — notes page layout */
+
+.page {
+  min-height: 100%;
+  background: var(--bg);
+  /* Override the global --max-w on the notes page for a wider two-column layout. */
+  --page-max-w: 1300px;
+}
+
+.main {
+  max-width: var(--page-max-w);
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 6px 4px;
+  transition: color 0.15s ease;
+}
+
+.back:hover {
+  color: var(--text);
+}
+
+.split {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+  box-shadow: var(--shadow-md);
+  animation: fadeUp 0.4s ease both;
+}
+
+.player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  animation: fadeUp 0.4s ease 0.05s both;
+  min-height: 0;
+}
+
+/* Sticky toolbar — tabs stay visible while scrolling through long notes */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: var(--header-h);
+  z-index: 10;
+  background: var(--surface);
+}
+
+.tabs {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  gap: 2px;
+}
+
+.tab,
+.tabActive {
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tab {
+  color: var(--text-muted);
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tabActive {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-xs);
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actionBtn {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.actionBtn:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.regenBtn {
+  height: auto;
+  min-height: 34px;
+}
+
+.cardBody {
+  padding: 26px 24px;
+}
+
+/* ---- Desktop: wider two-column layout (video 28% | notes 72%) ---- */
+@media (min-width: 900px) {
+  .split {
+    display: grid;
+    grid-template-columns: 28fr 72fr;
+    align-items: start;
+    gap: 22px;
+  }
+
+  .player {
+    position: sticky;
+    top: calc(var(--header-h) + 16px);
+  }
+}
+
+@media (max-width: 520px) {
+  .cardBody {
+    padding: 20px 16px;
+  }
+
+  .toolbar {
+    padding: 12px 14px;
+  }
+}
