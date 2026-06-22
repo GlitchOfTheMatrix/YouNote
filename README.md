@@ -159,34 +159,6 @@ VITE_APP_NAME=YouNote
 
 ---
 
-## Screenshots
-
-Add screenshots here after deployment.
-
-Suggested sections:
-
-* Landing Page
-* Notes View
-* Summary View
-* Transcript View
-* Chat Panel
-* Dark Mode
-
----
-
-## Future Improvements
-
-* User authentication
-* Notes history across devices
-* Export as PDF
-* Shareable note links
-* Multi-language transcript support
-* Streaming AI responses
-* Video chapter detection
-* Search across saved notes
-
----
-
 ## Lessons Learned
 
 Building YouNote involved working with:
