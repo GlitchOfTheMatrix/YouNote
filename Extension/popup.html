@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouNote Transcript Fetcher</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>YouNote Proxy</h1>
+            <div class="status-badge" id="statusBadge">Active</div>
+        </div>
+
+        <div class="section">
+            <h3>Status & Logs</h3>
+            <div id="logs" class="logs"></div>
+        </div>
+
+        <div class="section">
+            <div class="rate-limit-info">
+                <p><strong>Requests Made:</strong> <span id="requestCount">0</span></p>
+                <p><strong>Time Until Reset:</strong> <span id="timeUntilReset">--</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

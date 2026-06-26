@@ -16,6 +16,7 @@ import { type ReactNode } from "react";
 import { ThemeProvider } from "../providers/ThemeProvider";
 import { THEME_META_COLORS, THEME_STORAGE_KEY } from "../lib/theme";
 import { Button } from "../components/Button/Button";
+import { ExtensionBanner } from "../components/ExtensionBanner/ExtensionBanner";
 import appCss from "../styles.css?url";
 import styles from "./__root.module.css";
 
@@ -82,6 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: THEME_META_COLORS.light },
     ],
     links: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "stylesheet",
@@ -116,6 +118,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        <ExtensionBanner />
         <Outlet />
       </ThemeProvider>
     </QueryClientProvider>

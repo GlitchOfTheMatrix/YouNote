@@ -8,16 +8,30 @@ YouNote extracts a video's transcript, generates structured notes or summaries u
 
 ## Features
 
-* 🎥 Paste any YouTube video URL
-* 📝 Generate detailed AI notes
-* ⚡ Generate concise summaries
-* 📄 View the original transcript
-* 💬 Ask follow-up questions about the video
-* 📋 Copy notes or transcript
-* ⬇️ Download notes as Markdown and transcripts as text
-* 🌙 Light & Dark mode
-* 💾 Smart client-side caching to reduce unnecessary AI requests
-* 📱 Fully responsive design
+- 🎥 Paste any YouTube video URL
+- 📝 Generate detailed AI notes
+- ⚡ Generate concise summaries
+- 📄 View the original transcript
+- 💬 Ask follow-up questions about the video
+- 📋 Copy notes or transcript
+- ⬇️ Download notes as Markdown and transcripts as text
+- 🌙 Light & Dark mode
+- 💾 Smart client-side caching to reduce unnecessary AI requests
+- 📱 Fully responsive design
+
+---
+
+## Screenshots
+
+<div align="center">
+  <img src="Screenshots/home.png" alt="Home Screen" width="400" />
+  <img src="Screenshots/transcripts.png" alt="Transcipts Screen" width="400" />
+  <img src="Screenshots/summary.png" alt="Summary Screen" width="400" />
+  <img src="Screenshots/full.png" alt="Full Notes Screen" width="400" />
+  <img src="Screenshots/interactive.png" alt="Interactive Chat Screen" width="400" />
+  <img src="Screenshots/chat.png" alt="Chat Window" width="400" />
+  <img src="Screenshots/extension.png" alt="Extension" width="400" />
+</div>
 
 ---
 
@@ -25,22 +39,22 @@ YouNote extracts a video's transcript, generates structured notes or summaries u
 
 ### Frontend
 
-* React 19
-* TypeScript
-* Vite 7
-* TanStack Start
-* TanStack Router
-* TanStack Query
-* CSS Modules
-* Tailwind CSS v4
+- React 19
+- TypeScript
+- Vite 7
+- TanStack Start
+- TanStack Router
+- TanStack Query
+- CSS Modules
+- Tailwind CSS v4
 
 ### Backend
 
-* Python 3
-* FastAPI
-* Gemini API
-* YouTube Transcript API
-* Pydantic
+- Python 3
+- FastAPI
+- Gemini API
+- YouTube Transcript API
+- Pydantic
 
 ---
 
@@ -49,14 +63,16 @@ YouNote extracts a video's transcript, generates structured notes or summaries u
 ```text
              React Frontend
                     │
-                    ▼
-             FastAPI Backend
-                    │
-      ┌─────────────┴─────────────┐
-      ▼                           ▼
-YouTube Transcript API       Gemini API
-      │                           │
-      └─────────────┬─────────────┘
+          ┌─────────┴─────────┐
+          │                   │
+          ▼                   ▼
+      Extension         FastAPI Backend
+          │                   │
+          ▼                   ▼
+       YouTube            Gemini API
+    (Client IP)               │
+          │                   │
+          └─────────┬─────────┘
                     ▼
           AI Generated Response
 ```
@@ -66,13 +82,13 @@ YouTube Transcript API       Gemini API
 ## How It Works
 
 1. Paste a YouTube video URL.
-2. The backend extracts the video ID.
-3. The transcript is fetched from YouTube.
+2. The frontend attempts to fetch the transcript directly from YouTube via the **Browser Extension** (using your local IP to avoid blocking).
+3. If the extension is unavailable, it falls back to the backend fetching it server-side.
 4. Depending on the selected mode:
+   - **Transcript** → Return the raw transcript directly to the screen.
+   - **Summary** → Send the transcript to Gemini for a concise summary.
+   - **Full Notes** → Send the transcript to Gemini for structured notes.
 
-   * **Transcript** → Return the raw transcript.
-   * **Summary** → Send the transcript to Gemini for a concise summary.
-   * **Full Notes** → Send the transcript to Gemini for structured notes.
 5. The frontend displays the result and caches it for future visits.
 6. Users can ask follow-up questions using the generated notes as context.
 
@@ -81,6 +97,11 @@ YouTube Transcript API       Gemini API
 ## Project Structure
 
 ```text
+Extension/
+├── manifest.json
+├── popup.html
+└── service-worker.js
+
 Frontend/
 ├── src/
 │   ├── components/
@@ -155,23 +176,31 @@ Create a `.env` file:
 PORT=3000
 VITE_API_URL=http://localhost:8000
 VITE_APP_NAME=YouNote
+VITE_EXTENSION_ID=your_extension_id_here
 ```
 
----
+### Extension Setup
+
+To avoid YouTube blocking the backend IP, load the included extension:
+
+1. Open Chrome/Chromium to `chrome://extensions/`
+2. Enable "Developer mode"
+3. Click "Load unpacked" and select the `Extension` folder
+4. Copy the Extension ID and paste it into your Frontend `.env` file as `VITE_EXTENSION_ID`
 
 ## Lessons Learned
 
 Building YouNote involved working with:
 
-* React Server-Side Rendering (SSR)
-* Hydration and theme synchronization
-* FastAPI backend development
-* REST API design
-* Gemini API integration
-* YouTube transcript extraction
-* Client-side caching with TanStack Query
-* Responsive UI design
-* TypeScript and modern React patterns
+- React Server-Side Rendering (SSR)
+- Hydration and theme synchronization
+- FastAPI backend development
+- REST API design
+- Gemini API integration
+- YouTube transcript extraction
+- Client-side caching with TanStack Query
+- Responsive UI design
+- TypeScript and modern React patterns
 
 ---
 

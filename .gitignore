@@ -1,0 +1,12 @@
+.env
+.venv
+.vscode
+__pycache__
+node_modules
+dist
+.output
+.vite
+.tanstack
+Frontend/src/routeTree.gen.ts
+*.local
+Prompt.txt
