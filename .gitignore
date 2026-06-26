@@ -9,4 +9,3 @@ dist
 .tanstack
 Frontend/src/routeTree.gen.ts
 *.local
-Prompt.txt
