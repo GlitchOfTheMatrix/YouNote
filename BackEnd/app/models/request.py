@@ -52,3 +52,34 @@ class ChatRequest(BaseModel):
         if not trimmed:
             raise ValueError("Field cannot be empty")
         return trimmed
+
+
+class ExtensionTranscriptRequest(BaseModel):
+    """Body for POST /transcript-from-extension — transcript already fetched by extension."""
+
+    videoId: str = Field(..., min_length=1)
+    transcript: str = Field(..., min_length=1)
+
+    @field_validator("videoId", "transcript")
+    @classmethod
+    def strip_whitespace_ext_transcript(cls, value: str) -> str:
+        trimmed = value.strip()
+        if not trimmed:
+            raise ValueError("Field cannot be empty")
+        return trimmed
+
+
+class ExtensionNotesRequest(BaseModel):
+    """Body for POST /notes-from-extension — transcript provided by extension, needs LLM processing."""
+
+    videoId: str = Field(..., min_length=1)
+    transcript: str = Field(..., min_length=1)
+    mode: Literal["full", "summary"] = "full"
+
+    @field_validator("videoId", "transcript")
+    @classmethod
+    def strip_whitespace_ext_notes(cls, value: str) -> str:
+        trimmed = value.strip()
+        if not trimmed:
+            raise ValueError("Field cannot be empty")
+        return trimmed

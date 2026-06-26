@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 420px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #ffffff;
+    color: #333333;
+    line-height: 1.5;
+}
+
+.container {
+    padding: 16px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 12px;
+}
+
+.header h1 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-badge.loading {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.status-badge.error {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-badge.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.section {
+    margin-bottom: 16px;
+}
+
+.section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555555;
+}
+
+.logs {
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    max-height: 150px;
+    overflow-y: auto;
+    color: #424242;
+    line-height: 1.4;
+}
+
+.log-entry {
+    padding: 4px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-entry.success {
+    color: #2e7d32;
+}
+
+.log-entry.error {
+    color: #c62828;
+}
+
+.log-entry.info {
+    color: #1565c0;
+}
+
+.rate-limit-info {
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.rate-limit-info p {
+    margin: 6px 0;
+}
+
+.rate-limit-info strong {
+    color: #333333;
+}
+
+/* Scrollbar styling */
+.logs::-webkit-scrollbar,
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.logs::-webkit-scrollbar-track,
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.logs::-webkit-scrollbar-thumb,
+.container::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+    border-radius: 3px;
+}
+
+.logs::-webkit-scrollbar-thumb:hover,
+.container::-webkit-scrollbar-thumb:hover {
+    background: #999999;
+}

@@ -58,7 +58,7 @@ function NotesPage() {
   const notesQuery = useQuery({
     queryKey: ["notes", url, notesMode],
     queryFn: async () => {
-      const result = await fetchNotes(url, notesMode!);
+      const result = await fetchNotes(url, notesMode!, videoId);
       if (videoId) saveCachedNotes(videoId, notesMode!, result);
       return result;
     },
@@ -77,7 +77,7 @@ function NotesPage() {
   const transcriptQuery = useQuery({
     queryKey: ["transcript", url],
     queryFn: async () => {
-      const result = await fetchTranscript(url);
+      const result = await fetchTranscript(url, videoId);
       if (videoId) saveCachedTranscript(videoId, result);
       return result;
     },

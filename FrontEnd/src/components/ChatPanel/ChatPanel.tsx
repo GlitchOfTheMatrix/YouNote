@@ -13,11 +13,14 @@ import {
 import { Button } from "../Button/Button";
 import styles from "./ChatPanel.module.css";
 
-const SUGGESTIONS = [
-  "What does idempotency mean here?",
-  "Explain backpressure in one line",
-  "Why does observability matter?",
-];
+function getSuggestions(videoId: string | null) {
+  if (!videoId) return [];
+  return [
+    `What are the main takeaways from this video?`,
+    `Can you summarise the key points of the video?`,
+    `What is the most interesting part of the video?`,
+  ];
+}
 
 function makeId() {
   return crypto.randomUUID();
@@ -111,7 +114,7 @@ export function ChatPanel({ videoId, notes }: { videoId: string | null; notes: s
               Ask anything about the video — answers are grounded in the transcript.
             </p>
             <div className={styles.suggestions}>
-              {SUGGESTIONS.map((suggestion) => (
+              {getSuggestions(videoId).map((suggestion) => (
                 <button
                   key={suggestion}
                   type="button"
