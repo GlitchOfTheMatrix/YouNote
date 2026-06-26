@@ -61,9 +61,14 @@ const rateLimiter = new RateLimiter(100, 3600);
 // Internal message listener (from popup)
 // ---------------------------------------------------------------------------
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'fetchTranscript') {
+    if (request.action === 'fetchTranscript' && request.videoId) {
         handleFetchTranscript(request.videoId, sendResponse);
         return true; // Keep the channel open for async response
+    }
+    
+    if (request.action === 'ping') {
+        sendResponse({ success: true, version: chrome.runtime.getManifest().version });
+        return false;
     }
 });
 

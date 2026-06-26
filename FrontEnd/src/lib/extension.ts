@@ -2,10 +2,12 @@
 // Utility for communicating with the YouNote browser extension.
 // The extension fetches YouTube transcripts using the client's IP address,
 // avoiding server-side IP blocking by YouTube.
+// Supports Chrome (direct messaging) and Firefox (content script bridge).
 
 /**
  * The Chrome Extension ID. Set this in your .env as VITE_EXTENSION_ID
  * after loading the extension in chrome://extensions (Load unpacked).
+ * (Only strictly required for Chrome direct messaging).
  */
 const EXTENSION_ID: string = import.meta.env.VITE_EXTENSION_ID || "";
 
@@ -30,7 +32,6 @@ interface ExtensionPingResponse {
 
 /**
  * Check whether the Chrome runtime API and the extension ID are available.
- * Does NOT guarantee the extension is installed — use `isExtensionAvailable` for that.
  */
 function hasChromeRuntime(): boolean {
   return (
@@ -43,34 +44,60 @@ function hasChromeRuntime(): boolean {
 
 /**
  * Send a message to the extension and return the response.
- * Wraps chrome.runtime.sendMessage in a Promise with a timeout.
+ * Automatically tries direct messaging (Chrome) and falls back to
+ * window.postMessage for content script bridging (Firefox).
  */
 function sendToExtension<T>(message: Record<string, unknown>, timeoutMs = 30000): Promise<T> {
   return new Promise((resolve, reject) => {
-    if (!hasChromeRuntime()) {
-      reject(new Error("Extension not available"));
-      return;
-    }
-
     const timer = setTimeout(() => {
       reject(new Error("Extension request timed out"));
     }, timeoutMs);
 
-    try {
-      chrome.runtime.sendMessage(EXTENSION_ID, message, (response: unknown) => {
+    // Try direct Chrome messaging first if available
+    if (hasChromeRuntime()) {
+      try {
+        chrome.runtime.sendMessage(EXTENSION_ID, message, (response: unknown) => {
+          if (chrome.runtime.lastError) {
+            // Direct messaging failed, fallback to postMessage
+            tryPostMessageFallback();
+            return;
+          }
+          clearTimeout(timer);
+          resolve(response as T);
+        });
+      } catch (err) {
+        tryPostMessageFallback();
+      }
+    } else {
+      tryPostMessageFallback();
+    }
+
+    function tryPostMessageFallback() {
+      if (typeof window === "undefined" || !window.postMessage) {
         clearTimeout(timer);
+        reject(new Error("Extension not available in this environment"));
+        return;
+      }
 
-        // Check for Chrome runtime errors (extension not installed, etc.)
-        if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message || "Extension communication error"));
-          return;
+      const id = crypto.randomUUID();
+
+      function handleMessage(event: MessageEvent) {
+        if (event.source !== window) return;
+        const data = event.data;
+        if (data && data.type === "YOUNOTE_EXTENSION_RESPONSE" && data.id === id) {
+          window.removeEventListener("message", handleMessage);
+          clearTimeout(timer);
+          
+          if (data.response && (data.response as Record<string, unknown>).success === false && (data.response as Record<string, unknown>).error) {
+             // In case the background script returned an error object
+             // But we usually want to resolve the payload and let the caller check success
+          }
+          resolve(data.response as T);
         }
+      }
 
-        resolve(response as T);
-      });
-    } catch (err) {
-      clearTimeout(timer);
-      reject(err);
+      window.addEventListener("message", handleMessage);
+      window.postMessage({ type: "YOUNOTE_EXTENSION_REQUEST", id, payload: message }, "*");
     }
   });
 }
@@ -80,8 +107,6 @@ function sendToExtension<T>(message: Record<string, unknown>, timeoutMs = 30000)
  * Returns true if the extension responds successfully.
  */
 export async function isExtensionAvailable(): Promise<boolean> {
-  if (!hasChromeRuntime()) return false;
-
   try {
     const response = await sendToExtension<ExtensionPingResponse>(
       { action: "ping" },
