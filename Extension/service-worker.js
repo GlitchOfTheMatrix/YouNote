@@ -153,22 +153,19 @@ async function initializeRateLimiter() {
 
 async function fetchYouTubeTranscript(videoId) {
     try {
-        // Fetch the YouTube page to extract caption track URLs
-        const pageHtml = await fetch(`https://www.youtube.com/watch?v=${videoId}`)
-            .then(r => r.text());
+        const pageHtml = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+            headers: { 'Accept-Language': 'en-US,en;q=0.9' }
+        }).then(r => r.text());
 
-        // Try to extract captions from ytInitialPlayerResponse (more reliable)
-        const playerResponseMatch = pageHtml.match(
-            /var\s+ytInitialPlayerResponse\s*=\s*({.*?});/s
-        ) || pageHtml.match(
-            /ytInitialPlayerResponse\s*=\s*({.*?});/s
-        );
-
-        if (playerResponseMatch) {
+        // Use robust string splitting to extract ytInitialPlayerResponse
+        const splitHtml = pageHtml.split('"captions":');
+        if (splitHtml.length > 1) {
             try {
-                const playerResponse = JSON.parse(playerResponseMatch[1]);
-                const captionTracks =
-                    playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+                const captionsSection = splitHtml[1].split('"videoDetails"')[0];
+                const captionsJsonString = '{"captions":' + captionsSection.replace(/,\s*$/, '') + '}';
+                const playerResponse = JSON.parse(captionsJsonString);
+                
+                const captionTracks = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
 
                 if (captionTracks && captionTracks.length > 0) {
                     // Prefer English, fall back to first available
